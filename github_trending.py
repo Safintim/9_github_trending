@@ -6,7 +6,7 @@ def main():
     try:
         print('Топ 20-репозиториев за прошедшую неделю и количество открытых issues')
         for repo_owner, repo_name in get_trending_repositories(top_size=20):
-            print(get_open_issues_amount(repo_owner, repo_name))
+            print_issues_and_repo(get_open_issues_amount(repo_owner, repo_name))
     except requests.exceptions.RequestException as e:
         exit(e)
 
@@ -36,6 +36,10 @@ def get_open_issues_amount(repo_owner, repo_name):
     response.raise_for_status()
     repo = response.json()
     return repo['open_issues_count'], repo['html_url']
+
+
+def print_issues_and_repo(issues, repo_link):
+    print('Число открытых issues: {:3}, репозиторий: {}'.format(issues, repo_link))
 
 
 if __name__ == '__main__':
